@@ -6,16 +6,17 @@
 <roundcube:include file="/includes/links.html" />
 </head>
 <body>
+<roundcube:include file="/includes/bootstrap_js_include.html" />
 
-<div id="login-form" class="container-fluid">
+<div id="login-form" class="container">
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
+      <div class="page-header">
+        <h1>Login</h1>
+      </div>
       <roundcube:object name="logo" src="/images/roundcube_logo.png" id="logo" />
-
-      <form name="form" method="post" role="form">
-        <div class="form-group">
-          <roundcube:object name="loginform" form="form" size="40" submit=true />
-        </div> 
+      <form name="form" method="post" role="form"> 
+        <roundcube:object name="loginform" form="form" size="40" submit=true />
       </form>
 
     </div>
@@ -23,41 +24,50 @@
 
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <p class="bg-info">
-        <roundcube:object name="message" id="message" />
-
+        <roundcube:object name="message" id="message"/>
+        <br>
         <noscript>
             <p class="noscriptwarning"><roundcube:label name="noscriptwarning" /></p>
         </noscript>
-      </p>
     </div>
   </div>
 
   <div id="bottomline" class="col-md-6 col-md-offset-3">
       <roundcube:var name="config:product_name"> <roundcube:object name="version" condition="config:display_version" />
       <roundcube:if condition="config:support_url" />
-          &nbsp;&#9679;&nbsp; <a href="<roundcube:var name='config:support_url' />" target="_blank" class="support-link"><roundcube:label name="support" /></a>
+          &nbsp;&#9679;&nbsp; <a href="<roundcube:var name='config:support_url' />" target="_blank" ><roundcube:label name="support" /></a>
       <roundcube:endif />
       <roundcube:container name="loginfooter" id="bottomline" />
   </div>
 </div>
 
-<!--<roundcube:include file="/includes/footer.html" /> -->
+<script>
 
-<!--<roundcube:object name="preloader" images="
-  /images/ajaxloader.gif
-  /images/ajaxloader_dark.gif
-  /images/buttons.png
-  /images/addcontact.png
-  /images/filetypes.png
-  /images/listicons.png
-  /images/messages.png
-  /images/messages_dark.png
-  /images/quota.png
-  /images/selector.png
-  /images/splitter.png
-  /images/watermark.jpg
-" /> -->
+$(document).ready(function(){
+  //apply bootstrap classes to the input elements
+  $("#rcmloginuser").addClass("form-control");
+  $("#rcmloginpwd").addClass("form-control");
+  $("#rcmloginsubmit").addClass("btn btn-default");
+
+  //get inner html of the table cells
+  var labelUser = $("tr .title").eq(0).html();
+  var labelPass = $("tr .title").eq(1).html();
+  var inputUser = $("tr .input").eq(0).html();
+  var inputPass = $("tr .input").eq(1).html();
+
+  //remove the table an replace it with the proper input groups an elements
+  $("table").first().replaceWith(
+    "<div class='form-group'>"+
+    labelUser + inputUser +
+    "</div>\n" +
+    "<div class='form-group'>" +
+    labelPass + inputPass +
+    "</div>");
+
+});
+</script>
+
+
 
 </body>
 </html>
